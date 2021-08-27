@@ -49,7 +49,7 @@ public class User {
     private int age;
 
     @NotNull
-    @Column(name = "user_username")
+    @Column(name = "user_username", unique = true)
     private String username;
 
     @NotNull
@@ -62,7 +62,7 @@ public class User {
 
     @NotNull
     @Email
-    @Column(name = "user_email")
+    @Column(name = "user_email", unique = true)
     private String email;
 
     @ManyToMany
