@@ -11,11 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
     public User saveUser(User user) {
-        return userRepository.save(user);
+        User userSaved = userRepository.save(user);
+        log.info("New user created with the username name is: {}", user.getUsername());
+        return userSaved;
     }
 }
