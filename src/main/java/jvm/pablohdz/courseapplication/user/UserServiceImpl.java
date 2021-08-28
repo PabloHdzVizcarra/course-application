@@ -15,7 +15,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
         User userSaved = userRepository.save(user);
         log.info("New user created with the username name is: {}", user.getUsername());
         return userSaved;
