@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import jvm.pablohdz.courseapplication.course.Course;
+import jvm.pablohdz.courseapplication.course.CourseService;
 import jvm.pablohdz.courseapplication.user.Gender;
 import jvm.pablohdz.courseapplication.user.User;
 import jvm.pablohdz.courseapplication.user.UserService;
@@ -24,15 +26,27 @@ public class CourseApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService) {
+    CommandLineRunner run(UserService userService, CourseService courseService) {
         return args -> {
             userService.saveUser(new User(null, "Peter", "Parker",
                     22, "Spiderman", "admin123", Gender.MALE,
-                    "test@test.com", null));
+                    "test@test.com", null
+            ));
 
             userService.saveUser(new User(null, "Tony", "Stark",
                     42, "IronMan", "admin123", Gender.MALE,
-                    "example@test.com", null));
+                    "example@test.com", null
+            ));
+
+            courseService.saveCourse(new Course(null,
+                    "Basic Javascript", "Javascript", null
+            ));
+            courseService.saveCourse(new Course(null,
+                    "Basic React JS", "React JS", null
+            ));
+            courseService.saveCourse(new Course(null,
+                    "Basic Node JS", "Node JS", null
+            ));
         };
     }
 }
