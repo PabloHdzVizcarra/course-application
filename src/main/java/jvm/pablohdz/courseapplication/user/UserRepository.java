@@ -3,6 +3,8 @@ package jvm.pablohdz.courseapplication.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * Repository to handle persists users in the database

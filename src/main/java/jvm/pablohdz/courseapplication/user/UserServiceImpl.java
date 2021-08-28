@@ -3,6 +3,8 @@ package jvm.pablohdz.courseapplication.user;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +27,11 @@ public class UserServiceImpl implements UserService {
         }
         log.info("New user created with the username name is: {}", user.getUsername());
         return userSaved;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 }
