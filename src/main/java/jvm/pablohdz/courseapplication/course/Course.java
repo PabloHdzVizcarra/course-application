@@ -32,7 +32,7 @@ public class Course {
     private Long id;
 
     @NotNull
-    @Column(name = "course_name")
+    @Column(name = "course_name", unique = true)
     private String name;
 
     @NotNull
