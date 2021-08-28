@@ -17,8 +17,16 @@ public class UserServiceImpl implements UserService {
     public User saveUser(User user) {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        User userSaved = userRepository.save(user);
+        // TODO: 8/28/21 throw custom exception when email is duplicated
+        // TODO: 8/28/21  response with error and message to client
+        User userSaved;
+        try {
+            userSaved = userRepository.save(user);
+        } catch (Exception e) {
+            throw new EmailUserDuplicatedException(user.getEmail());
+        }
         log.info("New user created with the username name is: {}", user.getUsername());
         return userSaved;
     }
+
 }
