@@ -11,8 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
 class UserServiceImplTest {
@@ -23,15 +21,18 @@ class UserServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     private UserServiceImpl underTest;
+    private final String hashPassword = "akshjds879hn732hbdjsd";
 
     @BeforeEach
     void setUp() {
         underTest = new UserServiceImpl(userRepository, passwordEncoder);
+
+        BDDMockito.given(passwordEncoder.encode(ArgumentMatchers.anyString()))
+                .willReturn(hashPassword);
     }
 
     @Test
     void saveUserWithCorrectHashPassword() {
-        String hashPassword = "akshjds879hn732hbdjsd";
         User user = new User(
                 null,
                 "John",
@@ -56,8 +57,6 @@ class UserServiceImplTest {
                 null
         );
 
-        BDDMockito.given(passwordEncoder.encode(ArgumentMatchers.anyString()))
-                .willReturn(hashPassword);
         BDDMockito.given(userRepository.save(ArgumentMatchers.any()))
                 .willReturn(userHash);
 
@@ -67,5 +66,25 @@ class UserServiceImplTest {
                 .assertEquals(saveUser.getPassword(), hashPassword);
         Assertions
                 .assertEquals(user.getPassword(), hashPassword);
+    }
+
+    @Test
+    void throwCustomExceptionWhenTheEmailIsDuplicatedInTheDatabase() {
+        BDDMockito.given(userRepository.save(ArgumentMatchers.any()))
+                .willThrow(new EmailUserDuplicatedException("test@tes.com"));
+        User user = new User(
+                null,
+                "John",
+                "Connor",
+                32,
+                "johngod",
+                "admin123",
+                Gender.MALE,
+                "test@test.com",
+                null
+        );
+
+        Assertions.assertThrows(EmailUserDuplicatedException.class, () ->
+                underTest.saveUser(user));
     }
 }
