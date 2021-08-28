@@ -17,4 +17,6 @@ public interface UserService {
      * @return An {@link User} list with all existing users
      */
     List<User> getAllUsers();
+
+    void addCourseToUser(String userName, String courseName);
 }

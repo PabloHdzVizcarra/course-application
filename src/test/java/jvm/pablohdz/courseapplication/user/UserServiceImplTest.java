@@ -11,11 +11,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import jvm.pablohdz.courseapplication.course.CourseRepository;
+
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
 class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private CourseRepository courseRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -25,7 +30,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new UserServiceImpl(userRepository, passwordEncoder);
+        underTest = new UserServiceImpl(userRepository, courseRepository, passwordEncoder);
 
         BDDMockito.given(passwordEncoder.encode(ArgumentMatchers.anyString()))
                 .willReturn(hashPassword);

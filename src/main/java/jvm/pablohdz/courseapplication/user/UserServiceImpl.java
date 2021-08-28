@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import jvm.pablohdz.courseapplication.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -32,6 +34,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public void addCourseToUser(String userName, String courseName) {
+        User userFromDatabase = userRepository.getUserByUsername(userName);
+        System.out.println(userFromDatabase);
+        // TODO: 8/28/21 get user by name
+        // TODO: 8/28/21 add course to user
+        // TODO: 8/28/21 show log message
+        // TODO: 8/28/21 response with ok
     }
 
 }
