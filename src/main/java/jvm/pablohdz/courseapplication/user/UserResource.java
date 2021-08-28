@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+import jvm.pablohdz.courseapplication.pojo.CourseToUserForm;
 import jvm.pablohdz.courseapplication.utils.UrlUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -32,4 +33,9 @@ public class UserResource {
         return userService.getAllUsers();
     }
 
+    @PostMapping("/save-course")
+    public void addCourseToUser(@RequestBody CourseToUserForm resource) {
+        userService.addCourseToUser(resource.getUserName(), resource.getCourseName());
+        // TODO: 8/28/21 response with ok
+    }
 }
