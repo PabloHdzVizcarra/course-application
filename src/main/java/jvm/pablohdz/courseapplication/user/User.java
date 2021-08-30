@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -64,6 +65,9 @@ public class User {
     @Email
     @Column(name = "user_email", unique = true)
     private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
     @ManyToMany
     private Collection<Course> courses = new ArrayList<>();

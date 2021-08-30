@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,7 +34,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     public static final byte[] KEY_SECRET = "secret".getBytes();
     public static final String KEY_AUTH_ROLES = "roles";
 
-    @Autowired
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -69,7 +67,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             HttpServletResponse response,
             FilterChain chain,
             Authentication authResult
-    ) throws IOException, ServletException {
+    ) throws IOException {
         User user = (User) authResult.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256(KEY_SECRET);
 
