@@ -1,7 +1,7 @@
 package jvm.pablohdz.courseapplication.course;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,15 +14,15 @@ import javax.validation.constraints.NotNull;
 
 import jvm.pablohdz.courseapplication.user.User;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 
 @Entity
 @Table(name = "course")
-@ToString
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Course {
@@ -39,6 +39,16 @@ public class Course {
     @Column(name = "course_tag")
     private String tag;
 
-    @ManyToMany
-    private Collection<User> users = new ArrayList<>();
+    @ManyToMany(mappedBy = "courses")
+    private List<User> users = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", tag='" + tag + '\'' +
+                ", users=" + users +
+                '}';
+    }
 }
