@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -61,6 +60,17 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     }
 
 
+    /**
+     * Takes the result of the previous authentication, creates with the obtained data
+     * the access_token, applies the corresponding values to the token and sens it in
+     * the boy of the response with a JSON value.
+     *
+     * @param request from the servlet
+     * @param response from the servlet
+     * @param chain authentication service filter chain
+     * @param authResult comes from the interface {@link org.springframework.security.core.userdetails.UserDetailsService}
+     * @throws IOException if any error occurs
+     */
     @Override
     protected void successfulAuthentication(
             HttpServletRequest request,
