@@ -24,7 +24,7 @@ class CourseServiceImplTest {
 
     @Test
     void testThatFetchAllCourses() {
-        List<Course> users = underTest.getAllUsers();
+        List<Course> users = underTest.getAllCourses();
 
         assertNotNull(users);
     }

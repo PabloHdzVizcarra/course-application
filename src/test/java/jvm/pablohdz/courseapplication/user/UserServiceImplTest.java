@@ -24,7 +24,6 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-@DisplayName("UserService Tests")
 class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
@@ -124,5 +123,4 @@ class UserServiceImplTest {
 
         assertNotNull(user);
     }
-
 }

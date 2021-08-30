@@ -39,7 +39,8 @@ class UserControllerTest {
     @Test
     @DisplayName("Test to endpoint '/api/user/save-course' add course to user")
     void addCourseToUser() {
-        ResponseEntity<?> response = userController.addCourseToUser(new CourseToUserForm());
+        ResponseEntity<?> response =
+                userController.addCourseToUser(new CourseToUserForm());
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }

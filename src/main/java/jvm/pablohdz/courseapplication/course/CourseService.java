@@ -18,5 +18,5 @@ public interface CourseService {
      *
      * @return A list of {@link Course}
      */
-    List<Course> getAllUsers();
+    List<Course> getAllCourses();
 }
