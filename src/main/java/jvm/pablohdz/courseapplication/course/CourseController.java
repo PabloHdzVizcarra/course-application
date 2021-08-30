@@ -19,6 +19,7 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity<Course> saveCourse(@RequestBody Course resource) {
+        // TODO: 8/29/21 fix null
         return ResponseEntity
                 .created(null)
                 .body(courseService.saveCourse(resource));
@@ -26,6 +27,6 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<List<Course>> fetchUsers() {
-        return ResponseEntity.ok(courseService.getAllUsers());
+        return ResponseEntity.ok(courseService.getAllCourses());
     }
 }
