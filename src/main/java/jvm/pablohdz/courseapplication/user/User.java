@@ -1,8 +1,6 @@
 package jvm.pablohdz.courseapplication.user;
 
 
-import com.sun.istack.NotNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -17,18 +15,19 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import jvm.pablohdz.courseapplication.course.Course;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 
 
 @Entity
 @Table(name = "user")
-@ToString
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -72,6 +71,21 @@ public class User {
     @ManyToMany
     private Collection<Course> courses = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", age=" + age +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                ", courses=" + courses +
+                '}';
+    }
 }
 
 
