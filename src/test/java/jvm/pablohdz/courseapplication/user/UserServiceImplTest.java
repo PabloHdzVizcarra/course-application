@@ -3,7 +3,6 @@ package jvm.pablohdz.courseapplication.user;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -14,8 +13,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 
+import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseRepository;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
@@ -37,6 +39,7 @@ class UserServiceImplTest {
     private UserServiceImpl userServiceTest;
 
     private final String hashPassword = "akshjds879hn732hbdjsd";
+    private Course courseMock;
 
     @BeforeEach
     void setUp() {
@@ -53,6 +56,10 @@ class UserServiceImplTest {
                 Gender.MALE,
                 "test@test.com",
                 new ArrayList<>()
+        );
+
+        courseMock = new Course(1L, "basic javascript",
+                "javascript", new ArrayList<>()
         );
     }
 
@@ -115,21 +122,19 @@ class UserServiceImplTest {
                 userServiceTest.saveUser(user));
     }
 
-    @Nested
-    @DisplayName("addCourseToUser method test")
-    class AddCourseToUser {
+    @Test
+    void courseIsAddedToUser() {
+        given(userRepository.findByUsername(anyString()))
+                .willReturn(userFoundMock);
+        given(courseRepository.findByName(anyString()))
+                .willReturn(courseMock);
+        given(userRepository.save(any()))
+                .willReturn(userFoundMock);
 
-        @Test
-        void courseIsAddedToUser() {
-            given(userRepository.findByUsername(anyString()))
-                    .willReturn(userFoundMock);
+        User user = userServiceTest
+                .addCourseToUser("anonymous", "javascript");
 
-            userServiceTest
-                    .addCourseToUser("anonymous", "javascript");
-
-
-            Assertions.assertDoesNotThrow(() -> userServiceTest
-                    .addCourseToUser("anonymous", "javascript"));
-        }
+        assertNotNull(user);
     }
+
 }
