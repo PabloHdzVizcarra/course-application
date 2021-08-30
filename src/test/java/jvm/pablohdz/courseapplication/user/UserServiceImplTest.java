@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+
 import jvm.pablohdz.courseapplication.course.CourseRepository;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -30,13 +32,28 @@ class UserServiceImplTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    private User userFoundMock;
+
     private UserServiceImpl userServiceTest;
+
     private final String hashPassword = "akshjds879hn732hbdjsd";
 
     @BeforeEach
     void setUp() {
         userServiceTest =
                 new UserServiceImpl(userRepository, courseRepository, passwordEncoder);
+
+        userFoundMock = new User(
+                null,
+                "John",
+                "Connor",
+                32,
+                "johngod",
+                "admin123",
+                Gender.MALE,
+                "test@test.com",
+                new ArrayList<>()
+        );
     }
 
     @Test
@@ -104,8 +121,12 @@ class UserServiceImplTest {
 
         @Test
         void courseIsAddedToUser() {
+            given(userRepository.getUserByUsername(anyString()))
+                    .willReturn(userFoundMock);
+
             userServiceTest
                     .addCourseToUser("anonymous", "javascript");
+
 
             Assertions.assertDoesNotThrow(() -> userServiceTest
                     .addCourseToUser("anonymous", "javascript"));
