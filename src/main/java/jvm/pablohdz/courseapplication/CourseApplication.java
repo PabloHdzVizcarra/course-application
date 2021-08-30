@@ -10,6 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseService;
 import jvm.pablohdz.courseapplication.user.Gender;
+import jvm.pablohdz.courseapplication.user.Role;
+import jvm.pablohdz.courseapplication.user.RoleName;
+import jvm.pablohdz.courseapplication.user.RoleService;
 import jvm.pablohdz.courseapplication.user.User;
 import jvm.pablohdz.courseapplication.user.UserService;
 
@@ -26,7 +29,8 @@ public class CourseApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService, CourseService courseService) {
+    CommandLineRunner run(UserService userService,
+                          CourseService courseService, RoleService roleService) {
         return args -> {
             userService.saveUser(new User(null, "Peter", "Parker",
                     22, "Spiderman", "admin123", Gender.MALE,
@@ -47,6 +51,9 @@ public class CourseApplication {
             courseService.saveCourse(new Course(null,
                     "Basic Node JS", "Node JS", null
             ));
+
+            roleService.saveRole(new Role(null, RoleName.ROLE_USER));
+            roleService.saveRole(new Role(null, RoleName.ROLE_ADMIN));
         };
     }
 }
