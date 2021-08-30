@@ -2,10 +2,11 @@ package jvm.pablohdz.courseapplication.user;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,8 +14,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import jvm.pablohdz.courseapplication.course.CourseRepository;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
+@DisplayName("UserService Tests")
 class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
@@ -25,15 +30,13 @@ class UserServiceImplTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    private UserServiceImpl underTest;
+    private UserServiceImpl userServiceTest;
     private final String hashPassword = "akshjds879hn732hbdjsd";
 
     @BeforeEach
     void setUp() {
-        underTest = new UserServiceImpl(userRepository, courseRepository, passwordEncoder);
-
-        BDDMockito.given(passwordEncoder.encode(ArgumentMatchers.anyString()))
-                .willReturn(hashPassword);
+        userServiceTest =
+                new UserServiceImpl(userRepository, courseRepository, passwordEncoder);
     }
 
     @Test
@@ -62,10 +65,12 @@ class UserServiceImplTest {
                 null
         );
 
-        BDDMockito.given(userRepository.save(ArgumentMatchers.any()))
+        given(userRepository.save(ArgumentMatchers.any()))
                 .willReturn(userHash);
+        given(passwordEncoder.encode(anyString()))
+                .willReturn(hashPassword);
 
-        User saveUser = underTest.saveUser(user);
+        User saveUser = userServiceTest.saveUser(user);
 
         Assertions
                 .assertEquals(saveUser.getPassword(), hashPassword);
@@ -75,7 +80,7 @@ class UserServiceImplTest {
 
     @Test
     void throwCustomExceptionWhenTheEmailIsDuplicatedInTheDatabase() {
-        BDDMockito.given(userRepository.save(ArgumentMatchers.any()))
+        given(userRepository.save(ArgumentMatchers.any()))
                 .willThrow(new EmailUserDuplicatedException("test@tes.com"));
         User user = new User(
                 null,
@@ -90,6 +95,20 @@ class UserServiceImplTest {
         );
 
         Assertions.assertThrows(EmailUserDuplicatedException.class, () ->
-                underTest.saveUser(user));
+                userServiceTest.saveUser(user));
+    }
+
+    @Nested
+    @DisplayName("addCourseToUser method test")
+    class AddCourseToUser {
+
+        @Test
+        void courseIsAddedToUser() {
+            userServiceTest
+                    .addCourseToUser("anonymous", "javascript");
+
+            Assertions.assertDoesNotThrow(() -> userServiceTest
+                    .addCourseToUser("anonymous", "javascript"));
+        }
     }
 }
