@@ -30,12 +30,12 @@ public class CourseApplication {
         return args -> {
             userService.saveUser(new User(null, "Peter", "Parker",
                     22, "Spiderman", "admin123", Gender.MALE,
-                    "test@test.com", null
+                    "test@test.com", null, null
             ));
 
             userService.saveUser(new User(null, "Tony", "Stark",
                     42, "IronMan", "admin123", Gender.MALE,
-                    "example@test.com", null
+                    "example@test.com", null, null
             ));
 
             courseService.saveCourse(new Course(null,

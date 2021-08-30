@@ -43,6 +43,7 @@ class UserServiceImplTestBean {
                 "admin123",
                 Gender.MALE,
                 "test@test.com",
+                null,
                 null
         );
 
@@ -55,6 +56,7 @@ class UserServiceImplTestBean {
                 hashPassword,
                 Gender.MALE,
                 "test@test.com",
+                null,
                 null
         );
 

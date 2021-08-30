@@ -55,6 +55,7 @@ class UserServiceImplTest {
                 "admin123",
                 Gender.MALE,
                 "test@test.com",
+                new ArrayList<>(),
                 new ArrayList<>()
         );
 
@@ -71,6 +72,7 @@ class UserServiceImplTest {
                 "admin123",
                 Gender.MALE,
                 "test@test.com",
+                null,
                 null
         );
 
@@ -83,6 +85,7 @@ class UserServiceImplTest {
                 hashPassword,
                 Gender.MALE,
                 "test@test.com",
+                null,
                 null
         );
     }
