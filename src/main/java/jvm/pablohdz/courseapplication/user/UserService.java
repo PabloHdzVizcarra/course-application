@@ -18,5 +18,5 @@ public interface UserService {
      */
     List<User> getAllUsers();
 
-    void addCourseToUser(String userName, String courseName);
+    User addCourseToUser(String userName, String courseName);
 }

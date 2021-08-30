@@ -38,11 +38,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addCourseToUser(String userName, String courseName) {
-        User user = userRepository.getUserByUsername(userName);
-        Course courseFound = courseRepository.getCourseByName(courseName);
-        user.getCourses().add(courseFound);
-        userRepository.save(user);
+    public User addCourseToUser(String userName, String courseName) {
+        User userFound = userRepository.findByUsername(userName);
+        Course courseFound = courseRepository.findByName(courseName);
+        userFound.getCourses().add(courseFound);
+
+        log.info("The {} course was successfully added to user: {} ",
+                courseFound.getName(), userFound.getName());
+
+        return userRepository.save(userFound);
     }
 
 }

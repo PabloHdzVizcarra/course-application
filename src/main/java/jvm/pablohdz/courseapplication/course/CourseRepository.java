@@ -11,5 +11,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      * @param courseName The name to find course
      * @return A course
      */
-    Course getCourseByName(String courseName);
+    Course findByName(String courseName);
 }

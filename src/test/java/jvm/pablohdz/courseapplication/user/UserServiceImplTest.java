@@ -121,7 +121,7 @@ class UserServiceImplTest {
 
         @Test
         void courseIsAddedToUser() {
-            given(userRepository.getUserByUsername(anyString()))
+            given(userRepository.findByUsername(anyString()))
                     .willReturn(userFoundMock);
 
             userServiceTest
