@@ -22,6 +22,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import jvm.pablohdz.courseapplication.course.Course;
+import jvm.pablohdz.courseapplication.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

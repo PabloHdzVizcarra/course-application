@@ -1,4 +1,4 @@
-package jvm.pablohdz.courseapplication.user;
+package jvm.pablohdz.courseapplication.role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

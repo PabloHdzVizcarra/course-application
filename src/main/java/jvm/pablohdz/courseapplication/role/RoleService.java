@@ -1,4 +1,4 @@
-package jvm.pablohdz.courseapplication.user;
+package jvm.pablohdz.courseapplication.role;
 
 public interface RoleService {
     /**

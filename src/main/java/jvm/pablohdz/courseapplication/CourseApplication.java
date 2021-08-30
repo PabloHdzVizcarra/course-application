@@ -10,9 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseService;
 import jvm.pablohdz.courseapplication.user.Gender;
-import jvm.pablohdz.courseapplication.user.Role;
-import jvm.pablohdz.courseapplication.user.RoleName;
-import jvm.pablohdz.courseapplication.user.RoleService;
+import jvm.pablohdz.courseapplication.role.Role;
+import jvm.pablohdz.courseapplication.role.RoleName;
+import jvm.pablohdz.courseapplication.role.RoleService;
 import jvm.pablohdz.courseapplication.user.User;
 import jvm.pablohdz.courseapplication.user.UserService;
 
