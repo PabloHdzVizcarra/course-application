@@ -20,6 +20,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getAllUsers() {
-        return courseRepository.findAll();
+        List<Course> courses = courseRepository.findAll();
+        log.info("Fetch all courses from persistence service number is {} ",
+                courses.size());
+        return courses;
     }
 }
