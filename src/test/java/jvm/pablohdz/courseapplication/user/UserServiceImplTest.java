@@ -1,6 +1,5 @@
 package jvm.pablohdz.courseapplication.user;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,9 @@ import java.util.ArrayList;
 import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseRepository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -35,9 +36,9 @@ class UserServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     private User userFoundMock;
-
+    private User basicUser;
+    private User userWithHashPassword;
     private UserServiceImpl userServiceTest;
-
     private final String hashPassword = "akshjds879hn732hbdjsd";
     private Course courseMock;
 
@@ -61,11 +62,8 @@ class UserServiceImplTest {
         courseMock = new Course(1L, "basic javascript",
                 "javascript", new ArrayList<>()
         );
-    }
 
-    @Test
-    void saveUserWithCorrectHashPassword() {
-        User user = new User(
+        basicUser = new User(
                 null,
                 "John",
                 "Connor",
@@ -77,7 +75,7 @@ class UserServiceImplTest {
                 null
         );
 
-        User userHash = new User(
+        userWithHashPassword = new User(
                 null,
                 "John",
                 "Connor",
@@ -88,42 +86,32 @@ class UserServiceImplTest {
                 "test@test.com",
                 null
         );
+    }
 
-        given(userRepository.save(ArgumentMatchers.any()))
-                .willReturn(userHash);
+    @Test
+    void testThatSaveUserWithCorrectHashPassword() {
         given(passwordEncoder.encode(anyString()))
                 .willReturn(hashPassword);
+        given(userRepository.save(any()))
+                .willReturn(userWithHashPassword);
 
-        User saveUser = userServiceTest.saveUser(user);
+        User saveUser = userServiceTest.saveUser(basicUser);
 
-        Assertions
-                .assertEquals(saveUser.getPassword(), hashPassword);
-        Assertions
-                .assertEquals(user.getPassword(), hashPassword);
+        assertEquals(saveUser.getPassword(), hashPassword);
+        assertEquals(basicUser.getPassword(), hashPassword);
     }
 
     @Test
-    void throwCustomExceptionWhenTheEmailIsDuplicatedInTheDatabase() {
+    void testThatThrowCustomExceptionWhenTheEmailIsDuplicatedInTheDatabase() {
         given(userRepository.save(ArgumentMatchers.any()))
                 .willThrow(new EmailUserDuplicatedException("test@tes.com"));
-        User user = new User(
-                null,
-                "John",
-                "Connor",
-                32,
-                "johngod",
-                "admin123",
-                Gender.MALE,
-                "test@test.com",
-                null
-        );
 
-        Assertions.assertThrows(EmailUserDuplicatedException.class, () ->
-                userServiceTest.saveUser(user));
+        assertThrows(EmailUserDuplicatedException.class, () ->
+                userServiceTest.saveUser(basicUser));
     }
 
     @Test
-    void courseIsAddedToUser() {
+    void testThatAddCourseToUser() {
         given(userRepository.findByUsername(anyString()))
                 .willReturn(userFoundMock);
         given(courseRepository.findByName(anyString()))
