@@ -1,5 +1,6 @@
 package jvm.pablohdz.courseapplication.user;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +35,12 @@ public class UserController {
     }
 
     @PostMapping("/save-course")
-    public void addCourseToUser(@RequestBody CourseToUserForm resource) {
-        userService.addCourseToUser(resource.getUserName(), resource.getCourseName());
-        // TODO: 8/28/21 response with ok
+    public ResponseEntity<User> addCourseToUser(@RequestBody CourseToUserForm resource) {
+        User user = userService
+                .addCourseToUser(resource.getUserName(), resource.getCourseName());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(user);
     }
 }
