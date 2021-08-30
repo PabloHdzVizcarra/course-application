@@ -1,5 +1,6 @@
 package jvm.pablohdz.courseapplication.course;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +20,10 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity<Course> saveCourse(@RequestBody Course resource) {
-        // TODO: 8/29/21 fix null
-        return ResponseEntity
-                .created(null)
-                .body(courseService.saveCourse(resource));
+        return new ResponseEntity<>(
+                courseService.saveCourse(resource),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping
