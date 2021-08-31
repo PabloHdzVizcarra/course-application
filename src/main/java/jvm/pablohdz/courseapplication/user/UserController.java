@@ -31,13 +31,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDTO> getUsers() {
+    public ResponseEntity<List<UserDTO>> getUsers() {
         List<User> users = userService.getAllUsers();
         List<UserDTO> dtos = users.stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toUnmodifiableList());
 
-        return dtos;
+        return ResponseEntity.ok(dtos);
     }
 
     @PostMapping("/save-course")
