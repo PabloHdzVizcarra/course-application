@@ -31,7 +31,7 @@ class UserControllerTest {
 
     @Test
     void createUserWhenDataRequestIsCorrect() {
-        ResponseEntity<User> response = userController.saveUser(new User());
+        ResponseEntity<UserDTO> response = userController.saveUser(new User());
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }

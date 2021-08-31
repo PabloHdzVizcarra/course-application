@@ -23,11 +23,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> saveUser(@RequestBody User user) {
         URI url = UrlUtils.createUrl("/api/user");
+        User userFetched = userService.saveUser(user);
+        UserDTO dto = new UserDTO(userFetched);
         return ResponseEntity
                 .created(url)
-                .body(userService.saveUser(user));
+                .body(dto);
     }
 
     @GetMapping
