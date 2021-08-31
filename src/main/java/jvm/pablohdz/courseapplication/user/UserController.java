@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jvm.pablohdz.courseapplication.pojo.CourseToUserForm;
 import jvm.pablohdz.courseapplication.utils.UrlUtils;
@@ -30,8 +31,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
-        return userService.getAllUsers();
+    public List<UserDTO> getUsers() {
+        List<User> users = userService.getAllUsers();
+        List<UserDTO> dtos = users.stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toUnmodifiableList());
+
+        return dtos;
     }
 
     @PostMapping("/save-course")
