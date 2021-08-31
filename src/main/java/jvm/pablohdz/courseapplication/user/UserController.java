@@ -35,12 +35,13 @@ public class UserController {
     }
 
     @PostMapping("/save-course")
-    public ResponseEntity<User> addCourseToUser(@RequestBody CourseToUserForm resource) {
+    public ResponseEntity<UserDTO> addCourseToUser(@RequestBody CourseToUserForm resource) {
         User user = userService
                 .addCourseToUser(resource.getUserName(), resource.getCourseName());
+        UserDTO userDTO = new UserDTO(user);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(user);
+                .body(userDTO);
     }
 }

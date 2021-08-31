@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User addCourseToUser(String userName, String courseName) {
-        // TODO: 8/29/21 save user in the course
         User userFound = userRepository.findByUsername(userName);
         Course courseFound = courseRepository.findByName(courseName);
         userFound.getCourses().add(courseFound);
