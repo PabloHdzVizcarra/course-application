@@ -22,6 +22,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
+    public static final String ADMIN = "ROLE_ADMIN";
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
@@ -40,7 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/course")
-                .hasAnyAuthority("ROLE_ADMIN");
+                .hasAnyAuthority(ADMIN);
+
+        http.authorizeRequests()
+                        .antMatchers(HttpMethod.GET, "/api/role")
+                                .hasAuthority(ADMIN);
 
         http.authorizeRequests()
                 .antMatchers("/api/**")
