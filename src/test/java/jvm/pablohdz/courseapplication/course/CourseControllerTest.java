@@ -42,7 +42,7 @@ class CourseControllerTest {
 
     @Test
     void testThatFetchAllCourses() {
-        ResponseEntity<List<Course>> response = underTest.fetchUsers();
+        ResponseEntity<List<CourseDTO>> response = underTest.fetchCourses();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +28,12 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> fetchUsers() {
-        return ResponseEntity.ok(courseService.getAllCourses());
+    public ResponseEntity<List<CourseDTO>> fetchCourses() {
+        List<Course> courses = courseService.getAllCourses();
+        List<CourseDTO> dtos = courses.stream()
+                .map(CourseDTO::new)
+                .collect(Collectors.toUnmodifiableList());
+
+        return ResponseEntity.ok(dtos);
     }
 }

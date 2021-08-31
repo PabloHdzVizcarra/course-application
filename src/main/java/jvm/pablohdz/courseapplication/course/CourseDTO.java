@@ -15,7 +15,7 @@ import lombok.Setter;
 public class CourseDTO {
     private String name;
     private String tag;
-    private List<Object> users = new ArrayList<>();
+    private List<UserDTO> users = new ArrayList<>();
 
     public CourseDTO(Course course) {
         this.name = course.getName();
@@ -23,9 +23,14 @@ public class CourseDTO {
 
         users = course.getUsers().stream()
                 .map(user -> {
-                    UserDTO userDTO = new UserDTO();
-                    userDTO.setUsername(user.getUsername());
-                    return userDTO;
+                    UserDTO dto = new UserDTO();
+                    dto.setName(user.getName());
+                    dto.setLastName(user.getLastname());
+                    dto.setUsername(user.getUsername());
+                    dto.setAge(user.getAge());
+                    dto.setEmail(user.getEmail());
+                    dto.setGender(user.getGender());
+                    return dto;
                 })
                 .collect(Collectors.toList());
     }
