@@ -33,9 +33,6 @@ public class UserController {
                 .body(dto);
     }
 
-    // TODO: 9/1/21 create dto to role
-    // TODO: 9/1/21 added dto to user
-    // TODO: 9/1/21 return user with roles
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<User> users = userService.getAllUsers();

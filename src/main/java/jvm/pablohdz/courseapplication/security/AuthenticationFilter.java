@@ -26,10 +26,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Manage the authentication application
- *
  */
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    public static final int TOKEN_EXPIRATION_TIME = 60 * 60 * 1000;
     public static final byte[] KEY_SECRET = "secret".getBytes();
     public static final String KEY_AUTH_ROLES = "roles";
 
@@ -42,7 +42,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
      * creates a token with the obtained data and uses the set authentication manager to
      * authenticate with the generated token.
      *
-     * @param request request from the servlet
+     * @param request  request from the servlet
      * @param response response from the servlet
      * @return authentication manager setting
      */
@@ -65,9 +65,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
      * the access_token, applies the corresponding values to the token and sens it in
      * the boy of the response with a JSON value.
      *
-     * @param request from the servlet
-     * @param response from the servlet
-     * @param chain authentication service filter chain
+     * @param request    from the servlet
+     * @param response   from the servlet
+     * @param chain      authentication service filter chain
      * @param authResult comes from the interface {@link org.springframework.security.core.userdetails.UserDetailsService}
      * @throws IOException if any error occurs
      */
@@ -79,23 +79,35 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             Authentication authResult
     ) throws IOException {
         User user = (User) authResult.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256(KEY_SECRET);
 
         List<String> listAuthority = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        String access_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim(KEY_AUTH_ROLES, listAuthority)
-                .sign(algorithm);
-
+        String access_token =
+                buildAccessToken(request, user, listAuthority);
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+    }
+
+    private String buildAccessToken(
+            HttpServletRequest request,
+            User user,
+            List<String> listAuthority
+    ) {
+        Algorithm algorithm = Algorithm.HMAC256(KEY_SECRET);
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(getExpiresAt())
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim(KEY_AUTH_ROLES, listAuthority)
+                .sign(algorithm);
+    }
+
+    private Date getExpiresAt() {
+        return new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME);
     }
 }
 
