@@ -18,5 +18,15 @@ public interface UserService {
      */
     List<User> getAllUsers();
 
+    /**
+     * Adds a course to a user, the user will be searched by its username in the
+     * persistence service, likewise the course will be searched by its name, if both exist
+     * the course will be correctly added to user, otherwise the method throws an exception if
+     * some data does not exist
+     *
+     * @param userName the username to search for
+     * @param courseName the course name to search for
+     * @return the user with the added course
+     */
     User addCourseToUser(String userName, String courseName);
 }
