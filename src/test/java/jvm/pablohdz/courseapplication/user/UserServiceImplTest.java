@@ -188,14 +188,18 @@ class UserServiceImplTest {
         @Test
         void testThatSaveRoleToUser() {
             Role roleAdmin = new Role(null, RoleName.ROLE_ADMIN);
-            given(userRepository.findByUsername(anyString()))
+            given(userRepository.findByUsername("john"))
                     .willReturn(userWithRoles);
             given(roleRepository.findByName(any()))
                     .willReturn(roleAdmin);
+            given(userRepository.save(any()))
+                    .willReturn(userWithRoles);
 
-            underTest.addRoleToUser(any(), anyString());
+            underTest.addRoleToUser(any(), "john");
 
-            assertTrue(userWithRoles.getRoles().contains(roleAdmin));
+            assertTrue(userWithRoles.getRoles().size() != 0);
+            assertEquals(roleAdmin.getName(),
+                    userWithRoles.getRoles().get(0).getName());
         }
     }
 }
