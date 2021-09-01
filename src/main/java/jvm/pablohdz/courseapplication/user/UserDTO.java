@@ -2,9 +2,12 @@ package jvm.pablohdz.courseapplication.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import jvm.pablohdz.courseapplication.course.CourseDTO;
+import jvm.pablohdz.courseapplication.role.Role;
+import jvm.pablohdz.courseapplication.role.RoleDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +23,7 @@ public class UserDTO {
     private String email;
     private Gender gender;
     private List<CourseDTO> courses = new ArrayList<>();
+    private Set<RoleDto> roles;
 
     public UserDTO(User user) {
         this.name = user.getName();
@@ -37,5 +41,14 @@ public class UserDTO {
                     return dto;
                 })
                 .collect(Collectors.toUnmodifiableList());
+
+        this.roles = user.getRoles().stream()
+                .map(role1 -> {
+                    RoleDto dto = new RoleDto();
+                    dto.setName(role1.getName());
+                    return dto;
+                })
+                .collect(Collectors.toSet());
     }
+
 }
