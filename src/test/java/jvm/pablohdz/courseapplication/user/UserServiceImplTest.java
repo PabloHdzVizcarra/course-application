@@ -1,5 +1,6 @@
 package jvm.pablohdz.courseapplication.user;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -158,15 +160,14 @@ class UserServiceImplTest {
     class AddRoleToUser {
 
         @Test
-        void testThatNotThrowExceptionFetchRoleByName() {
+        void testThatThrowCustomExceptionWhenRoleNotExist() {
             given(userRepository.findByUsername(anyString()))
                     .willReturn(basicUser);
             given(roleRepository.findByName(any()))
-                    .willReturn(new Role(null, RoleName.ROLE_ADMIN));
+                    .willReturn(null);
 
-
-            Assertions.assertDoesNotThrow(() ->
-                    userServiceTest.addRoleToUser(RoleName.ROLE_ADMIN, "john"));
+            assertThrows(RoleNotFoundException.class, () ->
+                    userServiceTest.addRoleToUser(RoleName.ROLE_ADMIN, anyString()));
         }
     }
 }
