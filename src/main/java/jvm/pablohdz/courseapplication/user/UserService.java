@@ -2,6 +2,8 @@ package jvm.pablohdz.courseapplication.user;
 
 import java.util.List;
 
+import jvm.pablohdz.courseapplication.role.RoleName;
+
 public interface UserService {
     /**
      * Stores a user in the implemented persistence service
@@ -39,5 +41,5 @@ public interface UserService {
      * @param roleName the name of the role to search for
      * @param userName the name of the user to search for
      */
-    void addRoleToUser(String roleName, String userName);
+    void addRoleToUser(RoleName roleName, String userName);
 }

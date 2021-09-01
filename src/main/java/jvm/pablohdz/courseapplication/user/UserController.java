@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jvm.pablohdz.courseapplication.pojo.CourseToUserForm;
+import jvm.pablohdz.courseapplication.pojo.RoleToUserForm;
 import jvm.pablohdz.courseapplication.utils.UrlUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -54,5 +55,11 @@ public class UserController {
     }
 
     // TODO: 8/31/21 create endpoint for add role to user
+
+    @PostMapping("/save-role")
+    public ResponseEntity<String> saveRoleToUser(@RequestBody RoleToUserForm dataForm) {
+        System.out.println(dataForm);
+        return ResponseEntity.ok("OK");
+    }
 
 }

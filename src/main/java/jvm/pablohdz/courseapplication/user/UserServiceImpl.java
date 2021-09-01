@@ -15,6 +15,8 @@ import java.util.List;
 import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseNotFoundException;
 import jvm.pablohdz.courseapplication.course.CourseRepository;
+import jvm.pablohdz.courseapplication.role.Role;
+import jvm.pablohdz.courseapplication.role.RoleName;
 import jvm.pablohdz.courseapplication.role.RoleRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,14 +103,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     // TODO: 8/31/21 fetch role from repository
+    // TODO: 8/31/21 -- create role not found exception
+    // TODO: 8/31/21 -- added exception to handler
+    // TODO: 8/31/21 -- throw error if role not exist
     // TODO: 8/31/21 add role to user
     // TODO: 8/31/21 save user with new role
     // TODO: 8/31/21 return user with role
     @Override
-    public void addRoleToUser(String roleName, String userName) {
+    public void addRoleToUser(RoleName roleName, String userName) {
         User userFound = userRepository.findByUsername(userName);
         if (userFound == null)
             throw new UserNotFoundException(userName);
 
+        Role role = roleRepository.findByName(roleName);
+        System.out.println(role);
     }
 }
