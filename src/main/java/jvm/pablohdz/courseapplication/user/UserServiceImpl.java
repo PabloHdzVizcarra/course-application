@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 import jvm.pablohdz.courseapplication.course.Course;
+import jvm.pablohdz.courseapplication.course.CourseNotFoundException;
 import jvm.pablohdz.courseapplication.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,17 +66,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
+    // TODO: 8/31/21 rule the user only save one course different once
     @Override
     public User addCourseToUser(String userName, String courseName) {
-        // TODO: 8/31/21 throw exception user not exists
-        // TODO: 8/31/21 -- add custom exception to handler
-
-        // TODO: 8/31/21 throw exception course not exists
         User userFound = userRepository.findByUsername(userName);
         if (userFound == null)
             throw new UserNotFoundException(userName);
 
         Course courseFound = courseRepository.findByName(courseName);
+        if (courseFound == null)
+            throw new CourseNotFoundException(courseName);
+
         userFound.getCourses().add(courseFound);
 
         log.info("The {} course was successfully added to user: {} ",
