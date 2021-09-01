@@ -72,14 +72,14 @@ public class User {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles = new ArrayList<>();
+    private Collection<Role> roles = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "rel_user_course",
             joinColumns = @JoinColumn(name = "FK_USER", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "FK_COURSE", nullable = false))
-    private List<Course> courses = new ArrayList<>();
+    private Collection<Course> courses = new ArrayList<>();
 
     @Override
     public String toString() {
