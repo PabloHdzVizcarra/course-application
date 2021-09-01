@@ -54,11 +54,12 @@ public class UserController {
                 .body(userDTO);
     }
 
-    // TODO: 8/31/21 create endpoint for add role to user
-
     @PostMapping("/save-role")
     public ResponseEntity<String> saveRoleToUser(@RequestBody RoleToUserForm dataForm) {
-        System.out.println(dataForm);
+        userService.addRoleToUser(
+                dataForm.getRoleName(),
+                dataForm.getUsername()
+        );
         return ResponseEntity.ok("OK");
     }
 
