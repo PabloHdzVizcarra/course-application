@@ -102,9 +102,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(userFound);
     }
 
-    // TODO: 8/31/21 add role to user
-    // TODO: 8/31/21 save user with new role
-    // TODO: 8/31/21 return user with role
     @Override
     public void addRoleToUser(RoleName roleName, String userName) {
         User userFound = userRepository.findByUsername(userName);
