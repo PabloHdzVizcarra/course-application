@@ -70,6 +70,7 @@ public class User {
     @Column(name = "user_email", unique = true)
     private String email;
 
+    // TODO: 9/1/21 fix warning method to string
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 
