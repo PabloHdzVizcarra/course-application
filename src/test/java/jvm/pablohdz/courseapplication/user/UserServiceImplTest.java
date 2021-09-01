@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 
 import jvm.pablohdz.courseapplication.course.Course;
+import jvm.pablohdz.courseapplication.course.CourseNotFoundException;
 import jvm.pablohdz.courseapplication.course.CourseRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -134,5 +135,16 @@ class UserServiceImplTest {
         assertThrows(UserNotFoundException.class, () ->
                 userServiceTest.addCourseToUser(
                         "notUser", "Javascript"));
+    }
+
+    @Test
+    void testThatThrowCustomExceptionWhenTheCourseIsNotFound() {
+        given(userRepository.findByUsername(anyString()))
+                .willReturn(basicUser);
+        given(courseRepository.findByName(anyString()))
+                .willReturn(null);
+
+        assertThrows(CourseNotFoundException.class, () ->
+                userServiceTest.addCourseToUser("John", "errorCourse"));
     }
 }
