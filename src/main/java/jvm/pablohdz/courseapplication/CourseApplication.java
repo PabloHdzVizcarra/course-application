@@ -52,8 +52,9 @@ public class CourseApplication {
                     "Basic Node JS", "Node JS", null
             ));
 
-            roleService.saveRole(new Role(null, RoleName.ROLE_USER));
-            roleService.saveRole(new Role(null, RoleName.ROLE_ADMIN));
+            roleService.saveRole(new Role(RoleName.ROLE_USER));
+            roleService.saveRole(new Role(RoleName.ROLE_ADMIN));
+            roleService.saveRole(new Role(RoleName.ROLE_MASTER));
         };
     }
 }
