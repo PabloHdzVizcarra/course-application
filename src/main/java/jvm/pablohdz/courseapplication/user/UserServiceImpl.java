@@ -67,7 +67,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User addCourseToUser(String userName, String courseName) {
+        // TODO: 8/31/21 throw exception user not exists
+        // TODO: 8/31/21 -- add custom exception to handler
+
+        // TODO: 8/31/21 throw exception course not exists
         User userFound = userRepository.findByUsername(userName);
+        if (userFound == null)
+            throw new UserNotFoundException(userName);
+
         Course courseFound = courseRepository.findByName(courseName);
         userFound.getCourses().add(courseFound);
 
