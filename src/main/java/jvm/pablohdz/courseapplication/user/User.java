@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -71,7 +72,11 @@ public class User {
     @Column(name = "user_email", unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "rel_user_role",
+            joinColumns = @JoinColumn(name = "FK_USER", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "FK_ROLE", nullable = false))
     private Collection<Role> roles = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
