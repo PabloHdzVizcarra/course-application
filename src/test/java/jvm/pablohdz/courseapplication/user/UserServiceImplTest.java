@@ -1,14 +1,11 @@
 package jvm.pablohdz.courseapplication.user;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -42,14 +40,15 @@ class UserServiceImplTest {
 
     private User userFoundMock;
     private User basicUser;
+    private User userWithRoles;
     private User userWithHashPassword;
-    private UserServiceImpl userServiceTest;
+    private UserServiceImpl underTest;
     private final String hashPassword = "akshjds879hn732hbdjsd";
     private Course courseMock;
 
     @BeforeEach
     void setUp() {
-        userServiceTest =
+        underTest =
                 new UserServiceImpl(userRepository, courseRepository, passwordEncoder,
                         roleRepository
                 );
@@ -105,7 +104,7 @@ class UserServiceImplTest {
         given(userRepository.save(any()))
                 .willReturn(userWithHashPassword);
 
-        User saveUser = userServiceTest.saveUser(basicUser);
+        User saveUser = underTest.saveUser(basicUser);
 
         assertEquals(saveUser.getPassword(), hashPassword);
         assertEquals(basicUser.getPassword(), hashPassword);
@@ -117,7 +116,7 @@ class UserServiceImplTest {
                 .willThrow(new EmailUserDuplicatedException("test@tes.com"));
 
         assertThrows(EmailUserDuplicatedException.class, () ->
-                userServiceTest.saveUser(basicUser));
+                underTest.saveUser(basicUser));
     }
 
     @Test
@@ -129,7 +128,7 @@ class UserServiceImplTest {
         given(userRepository.save(any()))
                 .willReturn(userFoundMock);
 
-        User user = userServiceTest
+        User user = underTest
                 .addCourseToUser("anonymous", "javascript");
 
         assertNotNull(user);
@@ -141,7 +140,7 @@ class UserServiceImplTest {
                 .willReturn(null);
 
         assertThrows(UserNotFoundException.class, () ->
-                userServiceTest.addCourseToUser(
+                underTest.addCourseToUser(
                         "notUser", "Javascript"));
     }
 
@@ -153,11 +152,27 @@ class UserServiceImplTest {
                 .willReturn(null);
 
         assertThrows(CourseNotFoundException.class, () ->
-                userServiceTest.addCourseToUser("John", "errorCourse"));
+                underTest.addCourseToUser("John", "errorCourse"));
     }
 
     @Nested
     class AddRoleToUser {
+
+        @BeforeEach
+        void setUp() {
+            userWithRoles = new User(
+                    null,
+                    "John",
+                    "Connor",
+                    32,
+                    "johngod",
+                    "admin123",
+                    Gender.MALE,
+                    "test@test.com",
+                    new ArrayList<>(),
+                    new ArrayList<>()
+            );
+        }
 
         @Test
         void testThatThrowCustomExceptionWhenRoleNotExist() {
@@ -167,7 +182,20 @@ class UserServiceImplTest {
                     .willReturn(null);
 
             assertThrows(RoleNotFoundException.class, () ->
-                    userServiceTest.addRoleToUser(RoleName.ROLE_ADMIN, anyString()));
+                    underTest.addRoleToUser(RoleName.ROLE_ADMIN, anyString()));
+        }
+
+        @Test
+        void testThatSaveRoleToUser() {
+            Role roleAdmin = new Role(null, RoleName.ROLE_ADMIN);
+            given(userRepository.findByUsername(anyString()))
+                    .willReturn(userWithRoles);
+            given(roleRepository.findByName(any()))
+                    .willReturn(roleAdmin);
+
+            underTest.addRoleToUser(any(), anyString());
+
+            assertTrue(userWithRoles.getRoles().contains(roleAdmin));
         }
     }
 }
