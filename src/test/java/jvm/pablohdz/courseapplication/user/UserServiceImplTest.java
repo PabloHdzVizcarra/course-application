@@ -23,7 +23,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(SpringExtension.class)
 class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
@@ -125,5 +124,15 @@ class UserServiceImplTest {
                 .addCourseToUser("anonymous", "javascript");
 
         assertNotNull(user);
+    }
+
+    @Test
+    void testThatThrowCustomExceptionWhenTheUserIsNotFound() {
+        given(userRepository.findByUsername(anyString()))
+                .willReturn(null);
+
+        assertThrows(UserNotFoundException.class, () ->
+                userServiceTest.addCourseToUser(
+                        "notUser", "Javascript"));
     }
 }
