@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseNotFoundException;
@@ -62,7 +63,7 @@ class UserServiceImplTest {
                 "admin123",
                 Gender.MALE,
                 "test@test.com",
-                new ArrayList<>(),
+                new HashSet<>(),
                 new ArrayList<>()
         );
 
@@ -169,7 +170,7 @@ class UserServiceImplTest {
                     "admin123",
                     Gender.MALE,
                     "test@test.com",
-                    new ArrayList<>(),
+                    new HashSet<>(),
                     new ArrayList<>()
             );
         }
@@ -198,8 +199,6 @@ class UserServiceImplTest {
             underTest.addRoleToUser(any(), "john");
 
             assertTrue(userWithRoles.getRoles().size() != 0);
-            assertEquals(roleAdmin.getName(),
-                    userWithRoles.getRoles().get(0).getName());
         }
     }
 }
