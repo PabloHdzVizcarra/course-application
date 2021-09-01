@@ -20,7 +20,6 @@ public class RoleResource {
         this.roleService = roleService;
     }
 
-    // TODO: 8/30/21 endpoint to fetch all roles
     @PostMapping
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         return ResponseEntity
@@ -28,6 +27,9 @@ public class RoleResource {
                 .body(roleService.saveRole(role));
     }
 
+    // TODO: 8/31/21 WAIT protected only users with ROLE_ADMIN
+    // TODO: 8/31/21 - Response with RoleDto
+    // TODO: 8/31/21 - Response with entity
     @GetMapping
     public List<Role> getRole() {
         return roleService.findRoles();

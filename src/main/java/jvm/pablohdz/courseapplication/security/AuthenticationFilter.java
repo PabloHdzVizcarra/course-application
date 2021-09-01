@@ -28,12 +28,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * Manage the authentication application
  *
  */
-public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     public static final byte[] KEY_SECRET = "secret".getBytes();
     public static final String KEY_AUTH_ROLES = "roles";
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
