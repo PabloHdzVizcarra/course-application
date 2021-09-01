@@ -4,6 +4,7 @@ package jvm.pablohdz.courseapplication.user;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -70,9 +71,8 @@ public class User {
     @Column(name = "user_email", unique = true)
     private String email;
 
-    // TODO: 9/1/21 fix warning method to string
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
