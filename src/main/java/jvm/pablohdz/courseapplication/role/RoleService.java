@@ -11,5 +11,18 @@ public interface RoleService {
      */
     Role saveRole(Role role);
 
+    /**
+     * Fetch all roles form the persistence service
+     *
+     * @return a list of roles or null list
+     */
     List<Role> findRoles();
+
+    /**
+     * Searches for a role by name in the persistence service
+     *
+     * @param roleName the name of the role to find
+     * @return a role from the persistence service or null
+     */
+    Role findByRoleName(String roleName);
 }
