@@ -29,4 +29,15 @@ public interface UserService {
      * @return the user with the added course
      */
     User addCourseToUser(String userName, String courseName);
+
+    /**
+     * Adds a certain role to a user, the user will be searched by its username
+     * and the role will be searched by its role name, if both exist in the persistence
+     * service and no error occurs the role will be correctly added to the user
+     * otherwise it will throw some <span style="color: red">exception</span>
+     *
+     * @param roleName the name of the role to search for
+     * @param userName the name of the user to search for
+     */
+    void addRoleToUser(String roleName, String userName);
 }
