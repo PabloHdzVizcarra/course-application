@@ -1,6 +1,7 @@
 package jvm.pablohdz.courseapplication.user;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class UserDTO {
     private String email;
     private Gender gender;
     private List<CourseDTO> courses = new ArrayList<>();
-    private Set<RoleDto> roles;
+    private Collection<RoleDto> roles;
 
     public UserDTO(User user) {
         this.name = user.getName();
@@ -48,7 +49,7 @@ public class UserDTO {
                     dto.setName(role1.getName());
                     return dto;
                 })
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
 }

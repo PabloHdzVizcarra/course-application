@@ -21,9 +21,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-
     public static final String ADMIN = "ROLE_ADMIN";
+    public static final String MASTER = "ROLE_MASTER";
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,20 +41,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(STATELESS);
 
         http.authorizeRequests()
-                .antMatchers(
-                        "/api/user/**",
-                        "/api/course")
-                .permitAll();
+                .antMatchers(HttpMethod.POST, "/api/course")
+                .hasAuthority(ADMIN);
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/course")
-                .hasAnyAuthority(ADMIN);
+                .antMatchers(HttpMethod.GET, "/api/user")
+                .hasAuthority(ADMIN);
+
+        http.authorizeRequests()
+                .antMatchers(
+                        HttpMethod.POST,
+                        "/api/role",
+                        "/api/user/save-role"
+                )
+                .hasAuthority(MASTER);
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/role")
-                .hasAnyAuthority(ADMIN);
+                .hasAuthority(MASTER);
 
-        http.authorizeRequests().anyRequest().authenticated();
+
+        http.authorizeRequests()
+                .antMatchers("/api/**")
+                .permitAll();
 
         http.addFilter(authenticationFilter);
         http.addFilterBefore(
