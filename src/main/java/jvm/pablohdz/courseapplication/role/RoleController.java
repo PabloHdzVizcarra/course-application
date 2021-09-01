@@ -27,9 +27,6 @@ public class RoleController {
                 .body(roleService.saveRole(role));
     }
 
-    // TODO: 8/31/21 WAIT protected only users with ROLE_ADMIN
-    // TODO: 8/31/21 - Response with RoleDto
-    // TODO: 8/31/21 - Response with entity
     @GetMapping
     public List<Role> getRole() {
         return roleService.findRoles();
