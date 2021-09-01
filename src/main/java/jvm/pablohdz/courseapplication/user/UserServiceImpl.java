@@ -102,7 +102,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(userFound);
     }
 
-    // TODO: 8/31/21 fetch role from repository
     // TODO: 8/31/21 -- create role not found exception
     // TODO: 8/31/21 -- added exception to handler
     // TODO: 8/31/21 -- throw error if role not exist
@@ -116,6 +115,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UserNotFoundException(userName);
 
         Role role = roleRepository.findByName(roleName);
-        System.out.println(role);
     }
 }
