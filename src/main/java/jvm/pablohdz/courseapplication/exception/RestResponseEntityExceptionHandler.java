@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import jvm.pablohdz.courseapplication.course.CourseNotFoundException;
 import jvm.pablohdz.courseapplication.user.EmailUserDuplicatedException;
 import jvm.pablohdz.courseapplication.user.UserNotFoundException;
 
@@ -18,6 +19,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(UserNotFoundException.class)
     protected ResponseEntity<Object> handleUserNotFound(UserNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    protected ResponseEntity<Object> handleCourseNotFound(CourseNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
