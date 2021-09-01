@@ -34,6 +34,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * This filter will be applied on each request to the API
  */
 public class AuthorizationFilter extends OncePerRequestFilter {
+    // TODO: 8/31/21 Refactor this method
     @Override
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain

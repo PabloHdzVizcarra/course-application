@@ -52,4 +52,7 @@ public class UserController {
                 .status(HttpStatus.CREATED)
                 .body(userDTO);
     }
+
+    // TODO: 8/31/21 create endpoint for add role to user
+
 }

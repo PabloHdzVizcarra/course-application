@@ -104,7 +104,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void testThatThrowCustomExceptionWhenTheEmailIsDuplicatedInTheDatabase() {
+    void testThatThrowCustomExceptionWhenTheEmailIsDuplicated() {
         given(userRepository.save(ArgumentMatchers.any()))
                 .willThrow(new EmailUserDuplicatedException("test@tes.com"));
 
