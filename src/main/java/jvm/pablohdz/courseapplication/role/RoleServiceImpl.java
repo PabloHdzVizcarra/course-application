@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findByRoleName(String roleName) {
+    public Role findByRoleName(RoleName roleName) {
         return roleRepository.findByName(roleName);
     }
 }

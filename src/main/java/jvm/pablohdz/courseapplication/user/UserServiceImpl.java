@@ -15,6 +15,7 @@ import java.util.List;
 import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseNotFoundException;
 import jvm.pablohdz.courseapplication.course.CourseRepository;
+import jvm.pablohdz.courseapplication.role.RoleRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -23,16 +24,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public UserServiceImpl(
             UserRepository userRepository,
             CourseRepository courseRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            RoleRepository roleRepository
     ) {
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -94,5 +98,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         );
 
         return userRepository.save(userFound);
+    }
+
+    // TODO: 8/31/21 fetch role from repository
+    // TODO: 8/31/21 add role to user
+    // TODO: 8/31/21 save user with new role
+    // TODO: 8/31/21 return user with role
+    @Override
+    public void addRoleToUser(String roleName, String userName) {
+        User userFound = userRepository.findByUsername(userName);
+        if (userFound == null)
+            throw new UserNotFoundException(userName);
+
     }
 }

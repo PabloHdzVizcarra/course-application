@@ -24,5 +24,5 @@ public interface RoleService {
      * @param roleName the name of the role to find
      * @return a role from the persistence service or null
      */
-    Role findByRoleName(String roleName);
+    Role findByRoleName(RoleName roleName);
 }
