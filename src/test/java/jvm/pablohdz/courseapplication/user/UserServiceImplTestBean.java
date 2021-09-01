@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import jvm.pablohdz.courseapplication.course.CourseRepository;
+import jvm.pablohdz.courseapplication.role.RoleRepository;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -25,10 +26,13 @@ class UserServiceImplTestBean {
     private PasswordEncoder passwordEncoder;
 
     private UserServiceImpl userService;
+    private RoleRepository roleRepository;
 
     @BeforeEach
     void setUp() {
-        userService = new UserServiceImpl(userRepository, courseRepository, passwordEncoder);
+        userService = new UserServiceImpl(userRepository, courseRepository, passwordEncoder,
+                roleRepository
+        );
     }
 
     @Test

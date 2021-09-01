@@ -1,21 +1,25 @@
 package jvm.pablohdz.courseapplication.user;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 
 import jvm.pablohdz.courseapplication.course.Course;
 import jvm.pablohdz.courseapplication.course.CourseNotFoundException;
 import jvm.pablohdz.courseapplication.course.CourseRepository;
+import jvm.pablohdz.courseapplication.role.Role;
+import jvm.pablohdz.courseapplication.role.RoleName;
+import jvm.pablohdz.courseapplication.role.RoleRepository;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,12 +31,12 @@ import static org.mockito.BDDMockito.given;
 class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private CourseRepository courseRepository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private RoleRepository roleRepository;
 
     private User userFoundMock;
     private User basicUser;
@@ -44,7 +48,9 @@ class UserServiceImplTest {
     @BeforeEach
     void setUp() {
         userServiceTest =
-                new UserServiceImpl(userRepository, courseRepository, passwordEncoder);
+                new UserServiceImpl(userRepository, courseRepository, passwordEncoder,
+                        roleRepository
+                );
 
         userFoundMock = new User(
                 null,
@@ -146,5 +152,21 @@ class UserServiceImplTest {
 
         assertThrows(CourseNotFoundException.class, () ->
                 userServiceTest.addCourseToUser("John", "errorCourse"));
+    }
+
+    @Nested
+    class AddRoleToUser {
+
+        @Test
+        void testThatNotThrowExceptionFetchRoleByName() {
+            given(userRepository.findByUsername(anyString()))
+                    .willReturn(basicUser);
+            given(roleRepository.findByName(any()))
+                    .willReturn(new Role(null, RoleName.ROLE_ADMIN));
+
+
+            Assertions.assertDoesNotThrow(() ->
+                    userServiceTest.addRoleToUser(RoleName.ROLE_ADMIN, "john"));
+        }
     }
 }
