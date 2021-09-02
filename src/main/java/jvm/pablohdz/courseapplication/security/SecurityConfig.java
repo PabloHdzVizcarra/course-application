@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/user")
-                .hasAuthority(ADMIN);
+                .hasAnyAuthority(ADMIN);
 
         http.authorizeRequests()
                 .antMatchers(

@@ -72,7 +72,7 @@ public class User {
     @Column(name = "user_email", unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "rel_user_role",
             joinColumns = @JoinColumn(name = "FK_USER", nullable = false),
